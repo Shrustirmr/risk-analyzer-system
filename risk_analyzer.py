@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Risk Analyzer System.
 
-A beginner-friendly, pure-Python command-line program for validating,
+A pure-Python command-line program for validating,
 scoring, prioritising, and reporting operational risks.
 
-The complete implementation is intentionally kept in this one file. It uses
-only Python's standard library and can be run on Windows, macOS, or Linux.
+It uses only Python's standard library and can be run on Windows, macOS, or Linux.
 """
 
 import argparse
