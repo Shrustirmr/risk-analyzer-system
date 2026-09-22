@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="470" viewBox="0 0 900 470" role="img" aria-label="Risk Analyzer command line screenshot">
+  <rect width="900" height="470" rx="12" fill="#161b22"/>
+  <rect width="900" height="42" rx="12" fill="#30363d"/>
+  <circle cx="24" cy="21" r="7" fill="#ff5f56"/><circle cx="48" cy="21" r="7" fill="#ffbd2e"/><circle cx="72" cy="21" r="7" fill="#27c93f"/>
+  <text x="100" y="27" fill="#c9d1d9" font-family="monospace" font-size="15">Risk Analyzer — Terminal</text>
+  <g font-family="monospace" font-size="17" fill="#c9d1d9">
+    <text x="30" y="78" fill="#7ee787">$</text><text x="50" y="78">python risk_analyzer.py analyze --input data/sample_risks.json</text>
+    <text x="30" y="115" fill="#58a6ff">Risk Analyzer System</text>
+    <text x="30" y="140">--------------------</text>
+    <text x="30" y="177">Risks analyzed: 4</text>
+    <text x="30" y="207" fill="#ff7b72">Critical: 1</text><text x="180" y="207" fill="#ffa657">High: 1</text><text x="290" y="207" fill="#d29922">Medium: 1</text><text x="450" y="207" fill="#7ee787">Low: 1</text>
+    <text x="30" y="252" fill="#8b949e">ID        TITLE                    SCORE  PRIORITY</text>
+    <text x="30" y="282">RISK-001  Service outage           20     </text><text x="430" y="282" fill="#ff7b72">CRITICAL</text>
+    <text x="30" y="312">RISK-003  Supplier delay           12     </text><text x="430" y="312" fill="#ffa657">HIGH</text>
+    <text x="30" y="342">RISK-002  Data entry error           9     </text><text x="430" y="342" fill="#d29922">MEDIUM</text>
+    <text x="30" y="372">RISK-004  Minor documentation gap   2     </text><text x="430" y="372" fill="#7ee787">LOW</text>
+    <text x="30" y="425" fill="#7ee787">$</text><text x="50" y="425">python risk_analyzer.py report --help</text>
+  </g>
+</svg>
