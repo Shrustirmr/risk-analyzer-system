@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Risk Analyzer System.
-
-A pure-Python command-line program for validating,
-scoring, prioritising, and reporting operational risks.
-
-It uses only Python's standard library and can be run on Windows, macOS, or Linux.
-"""
+"""Risk Analyzer System."""
 
 import argparse
 import csv
@@ -18,9 +12,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
-# ---------------------------------------------------------------------------
 # Configuration
-# ---------------------------------------------------------------------------
 
 DEFAULT_THRESHOLDS = {
     "Low": 1,
@@ -46,9 +38,7 @@ class RiskValidationError(ValueError):
     """Raised when a risk record contains invalid data."""
 
 
-# ---------------------------------------------------------------------------
 # Data model and validation
-# ---------------------------------------------------------------------------
 
 @dataclass
 class Risk:
@@ -101,9 +91,7 @@ class Risk:
         return result
 
 
-# ---------------------------------------------------------------------------
 # Configuration and analysis logic
-# ---------------------------------------------------------------------------
 
 def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
     """Load priority thresholds from JSON, or use safe defaults."""
@@ -154,9 +142,7 @@ def build_summary(results: List[dict]) -> Dict[str, int]:
     }
 
 
-# ---------------------------------------------------------------------------
 # File input and output
-# ---------------------------------------------------------------------------
 
 def load_risks(input_path: str) -> List[Risk]:
     """Load validated risks from a JSON list or a CSV file."""
@@ -272,10 +258,8 @@ def run_application(arguments: Optional[List[str]] = None) -> int:
         return 1
 
 
-# ---------------------------------------------------------------------------
 # Built-in tests: no additional test files or third-party packages required.
 # Run with: python risk_analyzer.py --self-test
-# ---------------------------------------------------------------------------
 
 class RiskAnalyzerTests(unittest.TestCase):
     """Unit tests for the main model, algorithm, validation, and I/O."""
