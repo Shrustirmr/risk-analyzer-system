@@ -193,9 +193,7 @@ def write_report(results: List[dict], output_path: str, report_format: str) -> N
     raise ValueError("report format must be text, json, or csv")
 
 
-# ---------------------------------------------------------------------------
 # Command-line interface
-# ---------------------------------------------------------------------------
 
 def make_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
