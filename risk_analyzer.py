@@ -1,6 +1,7 @@
-#!/usr/bin/env python3
+#RISK ANALYZER SYSTEM
 """Risk Analyzer System."""
 
+#Importing necessary modules
 import argparse
 import csv
 import json
@@ -12,7 +13,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 
-# Configuration
+# Configuration of System
 
 DEFAULT_THRESHOLDS = {
     "Low": 1,
@@ -34,14 +35,14 @@ RISK_FIELDS = [
 ]
 
 
-class RiskValidationError(ValueError):
+class RiskValidationError(ValueError): #using inbuilt function class to handle valueerror
     """Raised when a risk record contains invalid data."""
 
 
 # Data model and validation
 
 @dataclass
-class Risk:
+class Risk:                   #defining class at risk
     """A single operational risk and its supporting information."""
 
     id: str
@@ -54,7 +55,7 @@ class Risk:
     status: str = "Open"
     mitigation: str = ""
 
-    def __post_init__(self) -> None:
+    def __post_init__(self) -> None:  #error halndling byt init_(.delf)
         if not str(self.id).strip():
             raise RiskValidationError("id is required")
         if not str(self.title).strip():
