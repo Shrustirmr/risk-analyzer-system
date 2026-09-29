@@ -97,8 +97,7 @@ def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
             values[name] = int(thresholds[name])
         for value in values.values():
             if value < 1:
-                raise ValueError("thresholds must be positive")
-                
+                raise ValueError("thresholds must be positive")       
         return values
         
     except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
@@ -133,7 +132,6 @@ def build_summary(results: List[dict]) -> Dict[str, int]:
 
 
 # File input and output
-
 def load_risks(input_path: str) -> List[Risk]:
     """Load validated risks from a JSON list or a CSV file."""
     path = Path(input_path)
