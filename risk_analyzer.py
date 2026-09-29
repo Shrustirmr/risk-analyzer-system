@@ -42,12 +42,20 @@ class Risk:   #defining class at risk
 
         for name in ("likelihood", "impact"):
             try:
-                value = int(getattr(self, name))
-            except (TypeError, ValueError) as error:
-                raise RiskValidationError(f"{name} must be an integer from 1 to 5") from error
-            if value < 1 or value > 5:
-                raise RiskValidationError(f"{name} must be between 1 and 5")
-            setattr(self, name, value)
+                self.likelihood = int(self.likelihood)
+            except:
+                raise RiskValidationError("likelihood must be an integer from 1 to 5")
+            
+            if self.likelihood < 1 or self.likelihood > 5:
+                raise RiskValidationError("likelihood must be between 1 and 5")
+            
+            try:
+                self.impact = int(self.impact)
+            except:
+                raise RiskValidationError("impact must be an integer from 1 to 5")
+                
+            if self.impact < 1 or self.impact > 5:
+                raise RiskValidationError("impact must be between 1 and 5")
 
     @property
     def score(self) -> int:
@@ -97,7 +105,8 @@ def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
             values[name] = int(thresholds[name])
         for value in values.values():
             if value < 1:
-                raise ValueError("thresholds must be positive")       
+                raise ValueError("thresholds must be positive")    
+                
         return values
         
     except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
