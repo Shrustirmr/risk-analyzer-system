@@ -18,7 +18,7 @@ DEFAULT_THRESHOLDS = {  "Low": 1,"Medium": 5,"High": 10,"Critical": 17,}
 RISK_FIELDS = ["id","title","description","category","likelihood","impact","owner","status","mitigation",]
 
 class RiskValidationError(ValueError): #using inbuilt function class to handle valueerror
-"""Raised when a risk record contains invalid data."""
+    """Raised when a risk record contains invalid data."""
 
 # Data model and validation
 @dataclass
