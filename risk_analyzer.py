@@ -14,7 +14,7 @@ from typing import Dict, List, Optional
 
 
 # Configuration of System
-DEFAULT_THRESHOLDS = {  "Low": 1,"Medium": 5,"High": 10,"Critical": 17,}
+DEFAULT_THRESHOLDS = { "Low": 1,"Medium": 5,"High": 10,"Critical": 17,}
 RISK_FIELDS = ["id","title","description","category","likelihood","impact","owner","status","mitigation",]
 
 class RiskValidationError(ValueError): #using inbuilt function class to handle valueerror
@@ -44,9 +44,7 @@ class Risk:   #defining class at risk
             try:
                 value = int(getattr(self, name))
             except (TypeError, ValueError) as error:
-                raise RiskValidationError(
-                    f"{name} must be an integer from 1 to 5"
-                ) from error
+                raise RiskValidationError(f"{name} must be an integer from 1 to 5") from error
             if value < 1 or value > 5:
                 raise RiskValidationError(f"{name} must be between 1 and 5")
             setattr(self, name, value)
