@@ -80,13 +80,8 @@ def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
         return DEFAULT_THRESHOLDS.copy()
 
     try:
-        with open(config_path, "r") as file:
-            config = json.load(file)
-
-        if "thresholds" in config:
-            thresholds = config["thresholds"]
-        else:
-            thresholds = config
+        config = json.loads(Path(config_path).read_text(encoding="utf-8"))
+        thresholds = config.get("thresholds", config)
         
         if "Low" not in thresholds:
             raise ValueError("Low threshold is missing")
