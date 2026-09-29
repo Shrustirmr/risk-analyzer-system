@@ -14,37 +14,16 @@ from typing import Dict, List, Optional
 
 
 # Configuration of System
-
-DEFAULT_THRESHOLDS = {
-    "Low": 1,
-    "Medium": 5,
-    "High": 10,
-    "Critical": 17,
-}
-
-RISK_FIELDS = [
-    "id",
-    "title",
-    "description",
-    "category",
-    "likelihood",
-    "impact",
-    "owner",
-    "status",
-    "mitigation",
-]
-
+DEFAULT_THRESHOLDS = {  "Low": 1,"Medium": 5,"High": 10,"Critical": 17,}
+RISK_FIELDS = ["id","title","description","category","likelihood","impact","owner","status","mitigation",]
 
 class RiskValidationError(ValueError): #using inbuilt function class to handle valueerror
-    """Raised when a risk record contains invalid data."""
-
+"""Raised when a risk record contains invalid data."""
 
 # Data model and validation
-
 @dataclass
-class Risk:                   #defining class at risk
+class Risk:   #defining class at risk
     """A single operational risk and its supporting information."""
-
     id: str
     title: str
     description: str = ""
@@ -55,7 +34,7 @@ class Risk:                   #defining class at risk
     status: str = "Open"
     mitigation: str = ""
 
-    def __post_init__(self) -> None:  #error halndling byt init_(.delf)
+    def __post_init__(self) -> None:  
         if not str(self.id).strip():
             raise RiskValidationError("id is required")
         if not str(self.title).strip():
@@ -93,7 +72,6 @@ class Risk:                   #defining class at risk
 
 
 # Configuration and analysis logic
-
 def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
     """Load priority thresholds from JSON, or use safe defaults."""
     if config_path is None:
@@ -137,10 +115,8 @@ def analyze_risks(risks: List[Risk], thresholds: Dict[str, int]) -> List[dict]:
 
 def build_summary(results: List[dict]) -> Dict[str, int]:
     """Count how many analyzed risks belong to each priority."""
-    return {
-        priority: sum(item["priority"] == priority for item in results)
-        for priority in ("Critical", "High", "Medium", "Low")
-    }
+    return {priority: sum(item["priority"] == priority for item in results)
+        for priority in ("Critical", "High", "Medium", "Low")}
 
 
 # File input and output
@@ -197,9 +173,7 @@ def write_report(results: List[dict], output_path: str, report_format: str) -> N
 # Command-line interface
 
 def make_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(
-        description="Validate, score, prioritise, and report operational risks."
-    )
+    parser = argparse.ArgumentParser(description="Validate, score, prioritise, and report operational risks.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     for command_name in ("analyze", "report"):
@@ -208,9 +182,7 @@ def make_parser() -> argparse.ArgumentParser:
         command.add_argument("--config", help="optional JSON threshold configuration")
         if command_name == "report":
             command.add_argument("--output", required=True)
-            command.add_argument(
-                "--format", choices=("text", "json", "csv"), default="text"
-            )
+            command.add_argument("--format", choices=("text", "json", "csv"), default="text")
 
     add_command = subparsers.add_parser("add", help="enter one risk interactively")
     add_command.add_argument("--output", default="risk.json")
