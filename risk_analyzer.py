@@ -160,18 +160,13 @@ def write_report(results: List[dict], output_path: str, report_format: str) -> N
     if report_format == "text":
         lines = ["Risk Analyzer Report", "=" * 20]
         for item in results:
-            lines.append(
-                f"{item['id']} | {item['title']} | "
-                f"score={item['score']} | priority={item['priority']}"
-            )
+            lines.append(f"{item['id']} | {item['title']} | " f"score={item['score']} | priority={item['priority']}")
         path.write_text("\n".join(lines) + "\n", encoding="utf-8")
         return
 
     raise ValueError("report format must be text, json, or csv")
 
-
 # Command-line interface
-
 def make_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Validate, score, prioritise, and report operational risks.")
     subparsers = parser.add_subparsers(dest="command", required=True)
@@ -195,9 +190,7 @@ def add_risk_interactively(output_path: str) -> None:
     for field in RISK_FIELDS:
         values[field] = input(f"{field}: ").strip()
     risk = Risk.from_dictionary(values)
-    Path(output_path).write_text(
-        json.dumps([risk.to_dictionary()], indent=2), encoding="utf-8"
-    )
+    Path(output_path).write_text(json.dumps([risk.to_dictionary()], indent=2), encoding="utf-8")
     print(f"Saved risk to {output_path}")
 
 
@@ -231,7 +224,6 @@ def run_application(arguments: Optional[List[str]] = None) -> int:
 
 # Built-in tests: no additional test files or third-party packages required.
 # Run with: python risk_analyzer.py --self-test
-
 class RiskAnalyzerTests(unittest.TestCase):
     """Unit tests for the main model, algorithm, validation, and I/O."""
 
@@ -246,10 +238,7 @@ class RiskAnalyzerTests(unittest.TestCase):
         self.assertEqual(classify_score(20, DEFAULT_THRESHOLDS), "Critical")
 
     def test_results_are_sorted(self):
-        risks = [
-            Risk("LOW", "Small issue", likelihood=1, impact=1),
-            Risk("HIGH", "Large issue", likelihood=5, impact=5),
-        ]
+        risks = [ Risk("LOW", "Small issue", likelihood=1, impact=1), Risk("HIGH", "Large issue", likelihood=5, impact=5),]
         results = analyze_risks(risks, DEFAULT_THRESHOLDS)
         self.assertEqual(results[0]["id"], "HIGH")
 
@@ -257,10 +246,7 @@ class RiskAnalyzerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             source = Path(directory) / "risks.json"
             target = Path(directory) / "report.json"
-            source.write_text(
-                json.dumps([{"id": "R1", "title": "Test", "likelihood": 2, "impact": 3}]),
-                encoding="utf-8",
-            )
+            source.write_text(json.dumps([{"id": "R1", "title": "Test", "likelihood": 2, "impact": 3}]),encoding="utf-8",)
             results = analyze_risks(load_risks(str(source)), DEFAULT_THRESHOLDS)
             write_report(results, str(target), "json")
             saved = json.loads(target.read_text(encoding="utf-8"))
