@@ -54,17 +54,17 @@ class Risk:   #defining class at risk
         """Calculate the risk score using likelihood multiplied by impact."""
         return self.likelihood * self.impact
 
-    @classmethod
-    def from_dictionary(cls, values: dict) -> "Risk":
-        """Create a Risk while ignoring calculated or unknown input fields."""
+    def from_dictionary(values):
         if not isinstance(values, dict):
             raise RiskValidationError("each risk must be a JSON object or CSV row")
+        
         clean_values = {}
         
         for key in RISK_FIELDS:
             if key in values:
                 clean_values[key] = values[key]
-        return cls(**clean_values)
+                
+        return Risk(**clean_values)
 
     def to_dictionary(self) -> dict:
         """Return a JSON/CSV-friendly representation of this risk."""
@@ -80,8 +80,13 @@ def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
         return DEFAULT_THRESHOLDS.copy()
 
     try:
-        config = json.loads(Path(config_path).read_text(encoding="utf-8"))
-        thresholds = config.get("thresholds", config)
+        with open(config_path, "r") as file:
+            config = json.load(file)
+
+        if "thresholds" in config:
+            thresholds = config["thresholds"]
+        else:
+            thresholds = config
         
         if "Low" not in thresholds:
             raise ValueError("Low threshold is missing")
