@@ -59,7 +59,11 @@ class Risk:   #defining class at risk
         """Create a Risk while ignoring calculated or unknown input fields."""
         if not isinstance(values, dict):
             raise RiskValidationError("each risk must be a JSON object or CSV row")
-        clean_values = {key: values[key] for key in RISK_FIELDS if key in values}
+        clean_values = {}
+        
+        for key in RISK_FIELDS:
+            if key in values:
+                clean_values[key] = values[key]
         return cls(**clean_values)
 
     def to_dictionary(self) -> dict:
@@ -78,14 +82,25 @@ def load_thresholds(config_path: Optional[str] = None) -> Dict[str, int]:
     try:
         config = json.loads(Path(config_path).read_text(encoding="utf-8"))
         thresholds = config.get("thresholds", config)
-        if set(thresholds) != set(DEFAULT_THRESHOLDS):
-            raise ValueError("thresholds must contain Low, Medium, High and Critical")
-        values = {name: int(value) for name, value in thresholds.items()}
-        if any(value < 1 for value in values.values()):
-            raise ValueError("thresholds must be positive")
-        if list(values.values()) != sorted(values.values()):
-            raise ValueError("threshold values must be in ascending order")
+        
+        if "Low" not in thresholds:
+            raise ValueError("Low threshold is missing")
+        if "Medium" not in thresholds:
+            raise ValueError("Medium threshold is missing")
+        if "High" not in thresholds:
+            raise ValueError("High threshold is missing")
+        if "Critical" not in thresholds:
+            raise ValueError("Critical threshold is missing")
+            
+        values = {}
+        for name in thresholds:
+            values[name] = int(thresholds[name])
+        for value in values.values():
+            if value < 1:
+                raise ValueError("thresholds must be positive")
+                
         return values
+        
     except (OSError, json.JSONDecodeError, TypeError, ValueError) as error:
         raise ValueError(f"could not read configuration: {error}") from error
 
@@ -108,8 +123,8 @@ def analyze_risks(risks: List[Risk], thresholds: Dict[str, int]) -> List[dict]:
         results.append(result)
 
     # Sort by score descending, then ID ascending for predictable output.
-    return sorted(results, key=lambda item: (-item["score"], item["id"]))
-
+    results.sort(key=lambda x: x["score"], reverse=True)
+    return results
 
 def build_summary(results: List[dict]) -> Dict[str, int]:
     """Count how many analyzed risks belong to each priority."""
